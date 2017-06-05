@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -eu
+
+RUN_DIR=/var/vcap/sys/run/ui
+LOG_DIR=/var/vcap/sys/log/ui
+TMP_DIR=/var/vcap/sys/tmp/ui
+STORE_DIR=/var/vcap/store/ui
+mkdir -p ${RUN_DIR} ${LOG_DIR} ${TMP_DIR} ${STORE_DIR}
+
+PIDFILE=${RUN_DIR}/ui.pid
+
+source /var/vcap/packages/harbor/common/utils.sh
+
+export PATH=/var/vcap/packages/harbor/bin:${PATH}
+
+case $1 in
+  start)
+    pid_guard ${PIDFILE} "ui"
+    echo $$ > ${PIDFILE}
+
+    export ADMIN_SERVER_URL="http://<%= link('adminserver').instances.first.address %>:<%= link('adminserver').p('adminserver.port') %>"
+    export CONFIG_PATH="/var/vcap/jobs/ui/config/app.conf"
+    export KEY_PATH="/var/vcap/jobs/ui/config/key"
+    export LOG_LEVEL="<%= p('ui.log_level') %>"
+    export UI_SECRET="<%= p('ui.secret') %>"
+    export JOBSERVICE_SECRET="<%= link('jobservice').p('jobservice.secret') %>"
+
+    # We cannot configure the `static` templates dir, so we need to be in that directory
+    cd /var/vcap/packages/harbor/templates
+    exec ui \
+      >>  ${LOG_DIR}/ui.stdout.log \
+      2>> ${LOG_DIR}/ui.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait ${PIDFILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

@@ -1,0 +1,75 @@
+---
+name: nginx
+
+packages:
+  - nginx_harbor
+
+templates:
+  bin/nginx_ctl: bin/nginx_ctl
+  config/nginx.conf: config/nginx.conf
+  config/ui_location.conf: config/ui_location.conf
+  config/ssl_cert.pem: config/ssl_cert.pem
+  config/ssl_key.pem: config/ssl_key.pem
+
+provides:
+  - name: nginx
+    type: nginx
+
+consumes:
+  - name: ui
+    type: ui
+
+properties:
+  nginx.worker_processes:
+    description: "Number of Nginx workers"
+    default: 2
+  nginx.worker_connections:
+    description: "Number of Nginx connections per worker"
+    default: 8192
+  nginx.max_upload_size:
+    description: "File upload maximum size"
+    default: 5000m
+  nginx.keepalive_timeout:
+    description: "Timeout for keep-alive connections"
+    default: 7200
+  nginx.ssl_only:
+    description: "Enable only HTTPS requests"
+    default: false
+  nginx.ssl_cert:
+    description: "SSL Certificate (PEM encoded)"
+  nginx.ssl_key:
+    description: "SSL private key (PEM encoded)"
+  nginx.ssl_protocols:
+    description: "Enable protocols"
+    default: "TLSv1 TLSv1.1 TLSv1.2"
+  nginx.ssl_ciphers:
+    description: "Enable ciphers"
+    default: "ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:HIGH:!MD5:!aNULL:!EDH"
+  nginx.ssl_session_cache:
+    description: "Types and sizes of caches that store session parameters"
+    default: "shared:SSL:10m"
+  nginx.ssl_session_timeout:
+    description: "Timeout for reusing the previously negotiated cryptographic parameters"
+    default: 7200
+  nginx.proxy_connect_timeout:
+    description: "Timeout for the connection to the upstream server"
+    default: 300
+  nginx.proxy_read_timeout:
+    description: "Timeout for read queries to the upstream server"
+    default: 120
+  nginx.proxy_send_timeout:
+    description: "Timeout for send queries to the upstream server"
+    default: 120
+
+  nginx.ui.server_name:
+    description: "Server name that proxy will listen on for UI HTTP(S) connections"
+    default: _
+  nginx.ui.http_port:
+    description: "Port that proxy will listen on for UI HTTP connections"
+    default: 80
+  nginx.ui.https_port:
+    description: "Port that proxy will listen on for UI HTTPS connections"
+    default: 443
+  nginx.ui.path:
+    description: "UI path"
+    default: "/"

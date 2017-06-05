@@ -1,0 +1,10 @@
+---
+name: harbor
+
+dependencies:
+  - golang_harbor
+  - node_harbor
+
+files:
+  - common/utils.sh
+  - github.com/vmware/harbor/**/*

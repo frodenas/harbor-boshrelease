@@ -1,0 +1,33 @@
+---
+name: jobservice
+
+packages:
+  - harbor
+
+templates:
+  bin/jobservice_ctl: bin/jobservice_ctl
+  config/app.conf: config/app.conf
+  config/key: config/key
+
+provides:
+  - name: jobservice
+    type: jobservice
+    properties:
+      - jobservice.port
+      - jobservice.secret
+
+consumes:
+  - name: adminserver
+    type: adminserver
+  - name: ui
+    type: ui
+
+properties:
+  jobservice.port:
+    description: "Jobservice listen port"
+    default: 80
+  jobservice.log_level:
+    description: "Jobservice Log Level"
+    default: info
+  jobservice.secret:
+    description: "Jobservice secret"

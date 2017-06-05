@@ -1,0 +1,5 @@
+check process jobservice
+  with pidfile /var/vcap/sys/run/jobservice/jobservice.pid
+  start program "/var/vcap/jobs/jobservice/bin/jobservice_ctl start"
+  stop program "/var/vcap/jobs/jobservice/bin/jobservice_ctl stop"
+  group vcap

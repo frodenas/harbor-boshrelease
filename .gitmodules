@@ -1,0 +1,3 @@
+[submodule "src/github.com/vmware/harbor"]
+	path = src/github.com/vmware/harbor
+	url = https://github.com/vmware/harbor.git

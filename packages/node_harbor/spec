@@ -1,0 +1,5 @@
+---
+name: node_harbor
+
+files:
+  - node/node-v7.5.0-linux-x64.tar.gz

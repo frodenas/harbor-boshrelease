@@ -1,0 +1,33 @@
+---
+name: ui
+
+packages:
+  - harbor
+
+templates:
+  bin/ui_ctl: bin/ui_ctl
+  config/app.conf: config/app.conf
+  config/key: config/key
+
+provides:
+  - name: ui
+    type: ui
+    properties:
+      - ui.port
+      - ui.secret
+
+consumes:
+  - name: adminserver
+    type: adminserver
+  - name: jobservice
+    type: jobservice
+
+properties:
+  ui.port:
+    description: "UI listen port"
+    default: 80
+  ui.log_level:
+    description: "UI Log Level"
+    default: info
+  ui.secret:
+    description: "UI secret"

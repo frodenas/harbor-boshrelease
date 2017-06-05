@@ -1,0 +1,5 @@
+check process adminserver
+  with pidfile /var/vcap/sys/run/adminserver/adminserver.pid
+  start program "/var/vcap/jobs/adminserver/bin/adminserver_ctl start"
+  stop program "/var/vcap/jobs/adminserver/bin/adminserver_ctl stop"
+  group vcap

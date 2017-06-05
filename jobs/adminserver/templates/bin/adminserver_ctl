@@ -1,0 +1,120 @@
+#!/bin/bash
+
+set -eu
+
+RUN_DIR=/var/vcap/sys/run/adminserver
+LOG_DIR=/var/vcap/sys/log/adminserver
+TMP_DIR=/var/vcap/sys/tmp/adminserver
+STORE_DIR=/var/vcap/store/adminserver
+mkdir -p ${RUN_DIR} ${LOG_DIR} ${TMP_DIR} ${STORE_DIR}
+
+PIDFILE=${RUN_DIR}/adminserver.pid
+
+source /var/vcap/packages/harbor/common/utils.sh
+
+export PATH=/var/vcap/packages/harbor/bin:${PATH}
+
+case $1 in
+  start)
+    pid_guard ${PIDFILE} "adminserver"
+    echo $$ > ${PIDFILE}
+
+    export PORT="<%= p('adminserver.port') %>"
+    export KEY_PATH="/var/vcap/jobs/adminserver/config/key"
+    export LOG_LEVEL="<%= p('adminserver.log_level') %>"
+    export UI_SECRET="<%= link('ui').p('ui.secret') %>"
+    export JOBSERVICE_SECRET="<%= link('jobservice').p('jobservice.secret') %>"
+    export JSON_CFG_STORE_PATH="${STORE_DIR}/adminserver.json"
+    export IMAGE_STORE_PATH="${STORE_DIR}/images"
+    mkdir -p "${IMAGE_STORE_PATH}"
+
+    export EXT_ENDPOINT="<%= p('adminserver.external_url') %>"
+    export AUTH_MODE="<%= p('adminserver.auth_mode') %>"
+    export MAX_JOB_WORKERS="<%= p('adminserver.max_job_workers') %>"
+    export REGISTRY_URL="<%= p('adminserver.docker_registry_url') %>"
+    export HARBOR_ADMIN_PASSWORD="<%= p('adminserver.harbor_admin_password') %>"
+
+    export DATABASE_TYPE=mysql
+    export MYSQL_HOST="<%= p('adminserver.mysql.host') %>"
+    export MYSQL_PORT="<%= p('adminserver.mysql.port') %>"
+    export MYSQL_USR="<%= p('adminserver.mysql.username') %>"
+    export MYSQL_PWD="<%= p('adminserver.mysql.password') %>"
+    export MYSQL_DATABASE="<%= p('adminserver.mysql.dbname') %>"
+
+    <% if_p('adminserver.self_registration') do |self_registration| %>
+    export SELF_REGISTRATION="<%= self_registration %>"
+    <% end %>
+    <% if_p('adminserver.token_expiration') do |token_expiration| %>
+    export TOKEN_EXPIRATION="<%= token_expiration %>"
+    <% end %>
+    <% if_p('adminserver.verify_remote_cert') do |verify_remote_cert| %>
+    export VERIFY_REMOTE_CERT="<%= verify_remote_cert %>"
+    <% end %>
+    <% if_p('adminserver.project_creation_restriction') do |project_creation_restriction| %>
+    export PROJECT_CREATION_RESTRICTION="<%= project_creation_restriction %>"
+    <% end %>
+    <% if_p('adminserver.admiral_url') do |admiral_url| %>
+    export ADMIRAL_URL="<%= admiral_url %>"
+    <% end %>
+    export WITH_NOTARY="false"
+
+    <% if_p('adminserver.ldap.url') do |ldap_url| %>
+    export LDAP_URL="<%= p('ldap_url') %>"
+    <% end %>
+    <% if_p('adminserver.ldap.searchdn') do |ldap_searchdn| %>
+    export LDAP_SEARCH_DN="<%= ldap_searchdn %>"
+    <% end %>
+    <% if_p('adminserver.ldap.search_pwd') do |ldap_search_pwd| %>
+    export LDAP_SEARCH_PWD="<%= ldap_search_pwd %>"
+    <% end %>
+    <% if_p('adminserver.ldap.basedn') do |ldap_basedn| %>
+    export LDAP_BASE_DN="<%= ldap_basedn %>"
+    <% end %>
+    <% if_p('adminserver.ldap.filter') do |ldap_filter| %>
+    export LDAP_FILTER="<%= ldap_filter %>"
+    <% end %>
+    <% if_p('adminserver.ldap.uid') do |ldap_uid| %>
+    export LDAP_UID="<%= ldap_uid %>"
+    <% end %>
+    <% if_p('adminserver.ldap.scope') do |ldap_scope| %>
+    export LDAP_SCOPE="<%= ldap_scope %>"
+    <% end %>
+    <% if_p('adminserver.ldap.timeout') do |ldap_timeout| %>
+    export LDAP_TIMEOUT="<%= ldap_timeout %>"
+    <% end %>
+
+    <% if_p('adminserver.email.server') do |email_server| %>
+    export EMAIL_HOST="<%= email_server %>"
+    <% end %>
+    <% if_p('adminserver.email.port') do |email_port| %>
+    export EMAIL_PORT="<%= email_port %>"
+    <% end %>
+    <% if_p('adminserver.email.username') do |email_username| %>
+    export EMAIL_USR="<%= email_username %>"
+    <% end %>
+    <% if_p('adminserver.email.password') do |email_password| %>
+    export EMAIL_PWD="<%= email_password %>"
+    <% end %>
+    <% if_p('adminserver.email.ssl') do |email_ssl| %>
+    export EMAIL_SSL="<%= email_ssl %>"
+    <% end %>
+    <% if_p('adminserver.email.from') do |email_from| %>
+    export EMAIL_FROM="<%= email_from %>"
+    <% end %>
+
+    exec adminserver \
+      >>  ${LOG_DIR}/adminserver.stdout.log \
+      2>> ${LOG_DIR}/adminserver.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait ${PIDFILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+exit 0

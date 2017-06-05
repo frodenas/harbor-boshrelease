@@ -1,0 +1,54 @@
+#!/bin/bash
+
+set -eux
+
+# Copy common utils
+mkdir -p ${BOSH_INSTALL_TARGET}/common
+cp -a ${BOSH_COMPILE_TARGET}/common/* ${BOSH_INSTALL_TARGET}/common
+
+# Build harbor package
+export GOROOT=/var/vcap/packages/golang_harbor/go
+export PATH=${GOROOT}/bin:${PATH}
+
+SOURCE_DIR=github.com/vmware/harbor
+mkdir -p ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}
+cp -a ${BOSH_COMPILE_TARGET}/${SOURCE_DIR}/* ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}
+export GOPATH=${BOSH_INSTALL_TARGET}
+
+# Build adminserver
+go install github.com/vmware/harbor/src/adminserver
+
+# Build jobservice
+go install github.com/vmware/harbor/src/jobservice
+
+# Build ui
+go install github.com/vmware/harbor/src/ui
+
+export PATH=/var/vcap/packages/node_harbor/bin:${PATH}
+export NODE_PATH=/var/vcap/packages/node_harbor/lib/node_modules/
+
+mkdir -p ${BOSH_INSTALL_TARGET}/clarity/src
+cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/src/* ${BOSH_INSTALL_TARGET}/clarity/src
+
+cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/package.json ${BOSH_INSTALL_TARGET}/clarity/
+cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/tslint.json ${BOSH_INSTALL_TARGET}/clarity/
+cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/typings.json ${BOSH_INSTALL_TARGET}/clarity/
+cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/yarn.lock ${BOSH_INSTALL_TARGET}/clarity/
+cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/make/dev/nodeclarity/angular-cli.json ${BOSH_INSTALL_TARGET}/clarity/
+
+pushd ${BOSH_INSTALL_TARGET}/clarity/
+export HOME=${BOSH_INSTALL_TARGET}
+npm install --unsafe-perm -g @angular/cli
+npm install --unsafe-perm
+ng build
+popd
+
+mkdir -p ${BOSH_INSTALL_TARGET}/templates
+cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui/views ${BOSH_INSTALL_TARGET}/templates/views/
+cp -a ${BOSH_INSTALL_TARGET}/clarity/dist ${BOSH_INSTALL_TARGET}/templates/static/
+cp -r ${BOSH_INSTALL_TARGET}/clarity/src/i18n/ ${BOSH_INSTALL_TARGET}/templates/static/
+mkdir -p ${BOSH_INSTALL_TARGET}/templates/harbor
+cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/VERSION ${BOSH_INSTALL_TARGET}/templates/harbor/VERSION
+
+# Clean articats
+rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/clarity
