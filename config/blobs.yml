@@ -1,6 +1,6 @@
-golang/go1.8.3.linux-amd64.tar.gz:
-  size: 90029041
-  sha: 838c415896ef5ecd395dfabde5e7e6f8ac943c8e
+golang/go1.9.linux-amd64.tar.gz:
+  size: 102601309
+  sha: 6a00c39435edc1e102f1fb75cc1137fba4c9e4e2
 nginx/nginx-1.10.3.tar.gz:
   size: 911509
   sha: 95cf32c3e33efc53ac81338a5779fbaa425f02e2
