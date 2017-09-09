@@ -27,7 +27,7 @@ case $1 in
     export JOBSERVICE_SECRET="<%= link('jobservice').p('jobservice.secret') %>"
 
     # We cannot configure the `static` templates dir, so we need to be in that directory
-    cd /var/vcap/packages/harbor/templates
+    cd /var/vcap/packages/harbor/ui
     exec ui \
       >>  ${LOG_DIR}/ui.stdout.log \
       2>> ${LOG_DIR}/ui.stderr.log
