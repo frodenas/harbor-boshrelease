@@ -1,0 +1,5 @@
+---
+name: phantomjs_harbor
+
+files:
+  - phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2
