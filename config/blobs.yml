@@ -4,9 +4,9 @@ golang/go1.8.3.linux-amd64.tar.gz:
 nginx/nginx-1.10.3.tar.gz:
   size: 911509
   sha: 95cf32c3e33efc53ac81338a5779fbaa425f02e2
-nginx/pcre-8.40.tar.gz:
-  size: 2065161
-  sha: 10384eb3d411794cc15f55b9d837d3f69e35391e
+nginx/pcre-8.41.tar.gz:
+  size: 2068775
+  sha: dddf0995aefe04cc6267c1448ffef0e7b0560ec0
 node/node-v7.5.0-linux-x64.tar.gz:
   size: 15340229
   sha: 724bc5b930036835c66d614f72b69bb09ca091d3
