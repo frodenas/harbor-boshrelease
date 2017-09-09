@@ -4,6 +4,7 @@ name: harbor
 dependencies:
   - golang_harbor
   - node_harbor
+  - phantomjs_harbor
 
 files:
   - common/utils.sh

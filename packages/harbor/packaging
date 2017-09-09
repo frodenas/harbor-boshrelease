@@ -24,31 +24,40 @@ go install github.com/vmware/harbor/src/jobservice
 # Build ui
 go install github.com/vmware/harbor/src/ui
 
-export PATH=/var/vcap/packages/node_harbor/bin:${PATH}
+mkdir -p ${BOSH_INSTALL_TARGET}/ui/
+cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/favicon.ico ${BOSH_INSTALL_TARGET}/ui/favicon.ico
+
+mkdir -p ${BOSH_INSTALL_TARGET}/ui/static/
+cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui/static/* ${BOSH_INSTALL_TARGET}/ui/static/
+
+mkdir -p ${BOSH_INSTALL_TARGET}/ui/views/
+cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui/views/* ${BOSH_INSTALL_TARGET}/ui/views/
+
+# Build ui_ng
+export PATH=/var/vcap/packages/node_harbor/bin:/var/vcap/packages/phantomjs_harbor/bin:${PATH}
 export NODE_PATH=/var/vcap/packages/node_harbor/lib/node_modules/
 
-mkdir -p ${BOSH_INSTALL_TARGET}/clarity/src
-cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/src/* ${BOSH_INSTALL_TARGET}/clarity/src
+mkdir -p ${BOSH_INSTALL_TARGET}/nodeclarity
+cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/* ${BOSH_INSTALL_TARGET}/nodeclarity
 
-cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/package.json ${BOSH_INSTALL_TARGET}/clarity/
-cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/tslint.json ${BOSH_INSTALL_TARGET}/clarity/
-cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/typings.json ${BOSH_INSTALL_TARGET}/clarity/
-cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/yarn.lock ${BOSH_INSTALL_TARGET}/clarity/
-cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/make/dev/nodeclarity/angular-cli.json ${BOSH_INSTALL_TARGET}/clarity/
-
-pushd ${BOSH_INSTALL_TARGET}/clarity/
-export HOME=${BOSH_INSTALL_TARGET}
+pushd ${BOSH_INSTALL_TARGET}/nodeclarity
+export HOME=${BOSH_INSTALL_TARGET}/nodeclarity
 npm install --unsafe-perm -g @angular/cli
 npm install --unsafe-perm
-ng build
+./node_modules/.bin/ngc -p tsconfig-aot.json
+sed -i 's/* as//g' src/app/shared/gauge/gauge.component.js
+./node_modules/.bin/rollup -c rollup-config.js
+
+cp dist/build.min.js ${BOSH_INSTALL_TARGET}/ui/static/
+cp -r src/i18n/ ${BOSH_INSTALL_TARGET}/ui/static/
+cp src/styles.css ${BOSH_INSTALL_TARGET}/ui/static/
+cp node_modules/clarity-icons/clarity-icons.min.css ${BOSH_INSTALL_TARGET}/ui/static/
+cp node_modules/mutationobserver-shim/dist/mutationobserver.min.js ${BOSH_INSTALL_TARGET}/ui/static/
+cp node_modules/@webcomponents/custom-elements/custom-elements.min.js ${BOSH_INSTALL_TARGET}/ui/static/
+cp node_modules/clarity-icons/clarity-icons.min.js ${BOSH_INSTALL_TARGET}/ui/static/
+cp node_modules/clarity-ui/clarity-ui.min.css ${BOSH_INSTALL_TARGET}/ui/static/
+cp -r node_modules/clarity-icons/shapes/ ${BOSH_INSTALL_TARGET}/ui/static/
 popd
 
-mkdir -p ${BOSH_INSTALL_TARGET}/templates
-cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui/views ${BOSH_INSTALL_TARGET}/templates/views/
-cp -a ${BOSH_INSTALL_TARGET}/clarity/dist ${BOSH_INSTALL_TARGET}/templates/static/
-cp -r ${BOSH_INSTALL_TARGET}/clarity/src/i18n/ ${BOSH_INSTALL_TARGET}/templates/static/
-mkdir -p ${BOSH_INSTALL_TARGET}/templates/harbor
-cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/VERSION ${BOSH_INSTALL_TARGET}/templates/harbor/VERSION
-
-# Clean articats
-rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/clarity
+# Clean artifats
+rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/nodeclarity
