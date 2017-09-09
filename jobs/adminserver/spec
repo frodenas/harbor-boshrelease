@@ -20,6 +20,8 @@ consumes:
     type: ui
   - name: jobservice
     type: jobservice
+  - name: mysql
+    type: mysql
 
 properties:
   adminserver.port:
