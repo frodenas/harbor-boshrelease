@@ -28,22 +28,11 @@ case $1 in
     export IMAGE_STORE_PATH="${STORE_DIR}/images"
     mkdir -p "${IMAGE_STORE_PATH}"
 
-    export EXT_ENDPOINT="<%= p('adminserver.external_url') %>"
+    export EXT_ENDPOINT="<%= p('adminserver.external_url', "http://#{spec.ip}:#{p('adminserver.port')}") %>"
     export AUTH_MODE="<%= p('adminserver.auth_mode') %>"
     export MAX_JOB_WORKERS="<%= p('adminserver.max_job_workers') %>"
     export REGISTRY_URL="<%= p('adminserver.docker_registry_url') %>"
-    export HARBOR_ADMIN_PASSWORD="<%= p('adminserver.harbor_admin_password') %>"
-
-    export DATABASE_TYPE=mysql
-    <% if_p('adminserver.mysql.host') do |mysql_host| %>
-    export MYSQL_HOST="<%= mysql_host %>"
-    <% end.else do %>
-    export MYSQL_HOST="<%= link('mysql').instances.first.address %>"
-    <% end %>
-    export MYSQL_PORT="<%= p('adminserver.mysql.port') %>"
-    export MYSQL_USR="<%= p('adminserver.mysql.username') %>"
-    export MYSQL_PWD="<%= p('adminserver.mysql.password') %>"
-    export MYSQL_DATABASE="<%= p('adminserver.mysql.dbname') %>"
+    export HARBOR_ADMIN_PASSWORD="<%= p('adminserver.initial_admin_password') %>"
 
     <% if_p('adminserver.self_registration') do |self_registration| %>
     export SELF_REGISTRATION="<%= self_registration %>"
@@ -61,18 +50,30 @@ case $1 in
     export ADMIRAL_URL="<%= admiral_url %>"
     <% end %>
     export WITH_NOTARY="false"
+    export WITH_CLAIR="false"
+
+    export DATABASE_TYPE=mysql
+    <% if_p('adminserver.mysql.host') do |mysql_host| %>
+    export MYSQL_HOST="<%= mysql_host %>"
+    <% end.else do %>
+    export MYSQL_HOST="<%= link('mysql').instances.first.address %>"
+    <% end %>
+    export MYSQL_PORT="<%= p('adminserver.mysql.port') %>"
+    export MYSQL_USR="<%= p('adminserver.mysql.username') %>"
+    export MYSQL_PWD="<%= p('adminserver.mysql.password') %>"
+    export MYSQL_DATABASE="<%= p('adminserver.mysql.dbname') %>"
 
     <% if_p('adminserver.ldap.url') do |ldap_url| %>
     export LDAP_URL="<%= p('ldap_url') %>"
     <% end %>
-    <% if_p('adminserver.ldap.searchdn') do |ldap_searchdn| %>
-    export LDAP_SEARCH_DN="<%= ldap_searchdn %>"
+    <% if_p('adminserver.ldap.search_dn') do |ldap_search_dn| %>
+    export LDAP_SEARCH_DN="<%= ldap_search_dn %>"
     <% end %>
     <% if_p('adminserver.ldap.search_pwd') do |ldap_search_pwd| %>
     export LDAP_SEARCH_PWD="<%= ldap_search_pwd %>"
     <% end %>
-    <% if_p('adminserver.ldap.basedn') do |ldap_basedn| %>
-    export LDAP_BASE_DN="<%= ldap_basedn %>"
+    <% if_p('adminserver.ldap.base_dn') do |ldap_base_dn| %>
+    export LDAP_BASE_DN="<%= ldap_base_dn %>"
     <% end %>
     <% if_p('adminserver.ldap.filter') do |ldap_filter| %>
     export LDAP_FILTER="<%= ldap_filter %>"

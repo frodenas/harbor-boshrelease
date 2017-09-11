@@ -32,31 +32,18 @@ properties:
     default: info
   adminserver.key:
     description: "Adminserver key"
+
   adminserver.external_url:
     description: "Adminserver external url"
   adminserver.auth_mode:
     description: "The type of authentication that is used (db_auth: the credentials are stored in a database; ldap_auth: for LDAP authentication"
-    default: "db_auth"
   adminserver.max_job_workers:
     description: "The maximum number of replication workers in job service"
     default: 3
   adminserver.docker_registry_url:
     description: "Docker Registry URL"
-  adminserver.harbor_admin_password:
+  adminserver.initial_admin_password:
     description: "The administrator's initial password. This password only takes effect for the first time Harbor launches. After that, this setting is ignored and the administrator's password should be set in the UI"
-
-  adminserver.mysql.host:
-    description: "MySQL Host"
-  adminserver.mysql.port:
-    description: "MySQL Port"
-    default: 3306
-  adminserver.mysql.username:
-    description: "MySQL Username"
-  adminserver.mysql.password:
-    description: "MySQL Password"
-  adminserver.mysql.dbname:
-    description: "MySQL DBName"
-    default: harbor
 
   adminserver.self_registration:
     description: "Enable (on) / Disable (off) the ability for a user to register himself/herself"
@@ -69,14 +56,25 @@ properties:
   adminserver.admiral_url:
     description: "Admiral URL"
 
+  adminserver.mysql.host:
+    description: "MySQL Host"
+  adminserver.mysql.port:
+    description: "MySQL Port"
+  adminserver.mysql.username:
+    description: "MySQL Username"
+  adminserver.mysql.password:
+    description: "MySQL Password"
+  adminserver.mysql.dbname:
+    description: "MySQL DBName"
+
   adminserver.ldap.url:
-    description: "The LDAP endpoint URL (e.g. ldaps://ldap.mydomain.com). Only used when auth_mode is set to ldap_auth"
-  adminserver.ldap.searchdn:
+    description: "The LDAP endpoint URL (e.g. ldaps://ldap.mydomain.com)"
+  adminserver.ldap.search_dn:
     description: "The DN of a user who has the permission to search an LDAP/AD server (e.g. uid=admin,ou=people,dc=mydomain,dc=com)"
   adminserver.ldap.search_pwd:
-    description: "The password of the user specified by ldap_searchdn"
-  adminserver.ldap.basedn:
-    description: "The base DN to look up a user, e.g. ou=people,dc=mydomain,dc=com. Only used when auth_mode is set to ldap_auth"
+    description: "The password of the user specified by search_dn"
+  adminserver.ldap.base_dn:
+    description: "The base DN to look up a user, e.g. ou=people,dc=mydomain,dc=com"
   adminserver.ldap.filter:
     description: "The search filter for looking up a user, e.g. (objectClass=person)"
   adminserver.ldap.uid:
