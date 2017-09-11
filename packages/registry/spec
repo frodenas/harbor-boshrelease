@@ -1,0 +1,9 @@
+---
+name: registry
+
+dependencies:
+  - golang_harbor
+
+files:
+  - common/utils.sh
+  - github.com/docker/distribution/**/*

@@ -1,3 +1,6 @@
 [submodule "src/github.com/vmware/harbor"]
 	path = src/github.com/vmware/harbor
 	url = https://github.com/vmware/harbor.git
+[submodule "src/github.com/docker/distribution"]
+	path = src/github.com/docker/distribution
+	url = https://github.com/docker/distribution.git
