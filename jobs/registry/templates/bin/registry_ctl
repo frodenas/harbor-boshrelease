@@ -1,0 +1,51 @@
+#!/bin/bash
+
+set -eu
+
+RUN_DIR=/var/vcap/sys/run/registry
+LOG_DIR=/var/vcap/sys/log/registry
+TMP_DIR=/var/vcap/sys/tmp/registry
+STORE_DIR=/var/vcap/store/registry
+mkdir -p ${RUN_DIR} ${LOG_DIR} ${TMP_DIR} ${STORE_DIR}
+
+PIDFILE=${RUN_DIR}/registry.pid
+
+source /var/vcap/packages/registry/common/utils.sh
+
+export PATH=/var/vcap/packages/registry/bin:${PATH}
+
+case $1 in
+  start)
+    pid_guard ${PIDFILE} "registry"
+    echo $$ > ${PIDFILE}
+
+    <% if_p('env.http_proxy') do |http_proxy| %>
+    export HTTP_PROXY="<%= http_proxy %>"
+    export http_proxy="<%= http_proxy %>"
+    <% end %>
+    <% if_p('env.https_proxy') do |https_proxy| %>
+    export HTTPS_PROXY="<%= https_proxy %>"
+    export https_proxy="<%= https_proxy %>"
+    <% end %>
+    <% if_p('env.no_proxy') do |no_proxy| %>
+    export NO_PROXY="<%= no_proxy %>"
+    export no_proxy="<%= no_proxy %>"
+    <% end %>
+
+    exec registry serve /var/vcap/jobs/registry/config/registry.yml \
+      >>  ${LOG_DIR}/registry.stdout.log \
+      2>> ${LOG_DIR}/registry.stderr.log
+    ;;
+
+  stop)
+    kill_and_wait ${PIDFILE}
+    ;;
+
+  *)
+    echo "Usage: $0 {start|stop}"
+    exit 1
+    ;;
+
+esac
+
+exit 0
