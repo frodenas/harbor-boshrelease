@@ -7,15 +7,18 @@ packages:
 templates:
   bin/nginx_ctl: bin/nginx_ctl
   config/nginx.conf: config/nginx.conf
-  config/ui_location.conf: config/ui_location.conf
+  config/registry_location.conf: config/registry_location.conf
   config/ssl_cert.pem: config/ssl_cert.pem
   config/ssl_key.pem: config/ssl_key.pem
+  config/ui_location.conf: config/ui_location.conf
 
 provides:
   - name: nginx
     type: nginx
 
 consumes:
+  - name: registry
+    type: registry
   - name: ui
     type: ui
 
@@ -28,7 +31,7 @@ properties:
     default: 8192
   nginx.max_upload_size:
     description: "File upload maximum size"
-    default: 5000m
+    default: 0
   nginx.keepalive_timeout:
     description: "Timeout for keep-alive connections"
     default: 7200
@@ -44,7 +47,7 @@ properties:
     default: "TLSv1 TLSv1.1 TLSv1.2"
   nginx.ssl_ciphers:
     description: "Enable ciphers"
-    default: "ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:HIGH:!MD5:!aNULL:!EDH"
+    default: "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH"
   nginx.ssl_session_cache:
     description: "Types and sizes of caches that store session parameters"
     default: "shared:SSL:10m"
@@ -60,6 +63,19 @@ properties:
   nginx.proxy_send_timeout:
     description: "Timeout for send queries to the upstream server"
     default: 120
+
+  nginx.registry.server_name:
+    description: "Server name that proxy will listen on for Docker Registry HTTP(S) connections"
+    default: _
+  nginx.registry.http_port:
+    description: "Port that proxy will listen on for Docker Registry HTTP connections"
+    default: 80
+  nginx.registry.https_port:
+    description: "Port that proxy will listen on for Docker Registry HTTPS connections"
+    default: 443
+  nginx.registry.path:
+    description: "Docker Registry path"
+    default: "/v2/"
 
   nginx.ui.server_name:
     description: "Server name that proxy will listen on for UI HTTP(S) connections"
