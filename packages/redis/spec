@@ -1,0 +1,6 @@
+---
+name: redis
+
+files:
+  - common/utils.sh
+  - redis/redis-4.0.1.tar.gz
