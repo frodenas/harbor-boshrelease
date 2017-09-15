@@ -19,6 +19,9 @@ case $1 in
     pid_guard ${PIDFILE} "ui"
     echo $$ > ${PIDFILE}
 
+    mkdir -p /harbor
+    cp /var/vcap/packages/harbor/ui/VERSION /harbor/VERSION
+
     mkdir -p /etc/ui
     cp /var/vcap/jobs/ui/config/private_key.pem /etc/ui/private_key.pem
 
