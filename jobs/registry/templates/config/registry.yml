@@ -337,9 +337,30 @@ http:
   <% end %>
 
 notifications:
+  endpoints:
+    - name: harbor
+      <% if link('nginx').p('nginx.ssl_only') %>
+      url: https://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('nginx.https_port') %>/service/notifications
+      <% else %>
+      url: http://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('nginx.http_port') %>/service/notifications
+      <% end %>
+      <% if_p('registry.notifications.harbor.disabled') do |disabled| %>
+      disabled: <%= disabled %>
+      <% end %>
+      <% if_p('registry.notifications.harbor.timeout') do |timeout| %>
+      timeout: <%= timeout %>
+      <% end %>
+      <% if_p('registry.notifications.harbor.threshold') do |threshold| %>
+      threshold: <%= threshold %>
+      <% end %>
+      <% if_p('registry.notifications.harbor.backoff') do |backoff| %>
+      backoff: <%= backoff %>
+      <% end %>
+      <% if_p('registry.notifications.harbor.ignored_media_types') do |ignored_media_types| %>
+      ignoredmediatypes: <%= ignored_media_types %>
+      <% end %>
   <% if_p('registry.notifications.endpoint.name',
           'registry.notifications.endpoint.url') do |name, url| %>
-  endpoints:
     - name: <%= name %>
       url: <%= url %>
       headers:

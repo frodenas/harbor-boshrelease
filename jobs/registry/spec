@@ -25,6 +25,8 @@ provides:
       - registry.http.port
 
 consumes:
+  - name: nginx
+    type: nginx
   - name: redis
     type: redis
     optional: true
@@ -270,6 +272,17 @@ properties:
 
   registry.http.http2.disabled:
     description: "If true, then http2 support is disabled"
+
+  registry.notifications.harbor.disabled:
+    description: "If true, notifications are disabled for the service"
+  registry.notifications.harbor.timeout:
+     description: "A value for the HTTP timeout"
+  registry.notifications.harbor.threshold:
+    description: "An integer specifying how long to wait before backing off a failure"
+  registry.notifications.harbor.backoff:
+    description: "How long the system backs off before retrying after a failure"
+  registry.notifications.harbor.ignored_media_types:
+    description: "A list of target media types to ignore"
 
   registry.notifications.endpoint.name:
     description: "A human-readable name for the service"
