@@ -1,0 +1,12 @@
+# Swift Registry Storage
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/driver?
+  value: swift
+
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/swift?
+  value:
+    username: ((registry_storage_swift_username))
+    password: ((registry_storage_swift_password))
+    auth_url: ((registry_storage_swift_auth_url))
+    container: ((registry_storage_swift_container))

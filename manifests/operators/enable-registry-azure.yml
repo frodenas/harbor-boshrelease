@@ -1,0 +1,11 @@
+# Azure Registry Storage
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/driver?
+  value: azure
+
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/azure?
+  value:
+    account_name: ((registry_storage_azure_account_name))
+    account_key: ((registry_storage_azure_account_key))
+    container: ((registry_storage_azure_container))

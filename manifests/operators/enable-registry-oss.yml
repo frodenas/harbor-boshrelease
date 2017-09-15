@@ -1,0 +1,12 @@
+# OSS Registry Storage
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/driver?
+  value: oss
+
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/oss?
+  value:
+    access_key_id: ((registry_storage_oss_access_key_id))
+    access_key_secret: ((registry_storage_oss_access_key_secret))
+    region: ((registry_storage_oss_region))
+    bucket: ((registry_storage_oss_bucket))

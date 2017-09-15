@@ -48,8 +48,16 @@ Additional [operations files](http://bosh.io/docs/cli-ops-files.html) are locate
 
 Please review the op files before deploying them to check the requeriments, dependencies and necessary variables.
 
-| File | Description | exporter | dashboards | alerts |
-| ---- | ----------- |:--------:|:----------:|:------:|
+| File | Description |
+| ---- | ----------- |
+| [enable-cf-route-registrar.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-cf-route-registrar.yml) | Registers `registry`, and `harbor` as [Cloud Foundry routes](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html) (under your `system domain`) |
+| [enable-redis-cache.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-redis-cache.yml) | Uses [Redis](https://redis.io/) to cache information about [Docker Registry](https://docs.docker.com/registry/) immutable blobs |
+| [enable-registry-azure.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-azure.yml) | Uses [Microsoft Azure Storage](https://azure.microsoft.com/en-us/services/storage/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
+| [enable-registry-gcs.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-gcs.yml) | Uses [Google Cloud Storage](https://cloud.google.com/storage/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
+| [enable-registry-oss.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-oss.yml) | Uses [Aliyun Object Storage Service](https://www.alibabacloud.com/product/oss) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
+| [enable-registry-s3.ymll](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-s3.yml) | Uses [Amazon S3](https://cloud.google.com/storage/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
+| [enable-registry-swift.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-swift.yml) | Uses [OpenStack Swift](https://docs.openstack.org/swift/latest/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
+
 
 ### Deployment variables and the var-store
 
