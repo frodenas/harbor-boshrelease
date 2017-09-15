@@ -61,6 +61,9 @@ properties:
     description: "Docker Registry URL"
   adminserver.admiral_url:
     description: "Admiral URL"
+  adminserver.reset:
+    description: "Reset system configuration"
+    default: false
 
   adminserver.mysql.host:
     description: "MySQL Host"

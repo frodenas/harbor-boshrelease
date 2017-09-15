@@ -58,6 +58,7 @@ case $1 in
     <% end %>
     export WITH_NOTARY="false"
     export WITH_CLAIR="false"
+    export RESET="<%= p('adminserver.reset') %>"
 
     export DATABASE_TYPE=mysql
     <% if_p('adminserver.mysql.host') do |mysql_host| %>
