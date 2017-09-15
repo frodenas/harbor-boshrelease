@@ -10,9 +10,10 @@ cp -a ${BOSH_COMPILE_TARGET}/common/* ${BOSH_INSTALL_TARGET}/common
 export GOROOT=/var/vcap/packages/golang_harbor/go
 export PATH=${GOROOT}/bin:${PATH}
 
-SOURCE_DIR=github.com/vmware/harbor
-mkdir -p ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}
-cp -a ${BOSH_COMPILE_TARGET}/${SOURCE_DIR}/* ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}
+VERSION=v1.2.0
+PACKAGE_NAME=github.com/vmware/harbor
+mkdir -p ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
+cp -a ${BOSH_COMPILE_TARGET}/${PACKAGE_NAME}/* ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}
 export GOPATH=${BOSH_INSTALL_TARGET}
 
 # Build adminserver
@@ -25,20 +26,21 @@ go install github.com/vmware/harbor/src/jobservice
 go install github.com/vmware/harbor/src/ui
 
 mkdir -p ${BOSH_INSTALL_TARGET}/ui/
-cp ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/favicon.ico ${BOSH_INSTALL_TARGET}/ui/favicon.ico
+echo ${VERSION} > ${BOSH_INSTALL_TARGET}/ui/VERSION
+cp ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/src/favicon.ico ${BOSH_INSTALL_TARGET}/ui/favicon.ico
 
 mkdir -p ${BOSH_INSTALL_TARGET}/ui/static/
-cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui/static/* ${BOSH_INSTALL_TARGET}/ui/static/
+cp -a ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/src/ui/static/* ${BOSH_INSTALL_TARGET}/ui/static/
 
 mkdir -p ${BOSH_INSTALL_TARGET}/ui/views/
-cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui/views/* ${BOSH_INSTALL_TARGET}/ui/views/
+cp -a ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/src/ui/views/* ${BOSH_INSTALL_TARGET}/ui/views/
 
 # Build ui_ng
 export PATH=/var/vcap/packages/node_harbor/bin:/var/vcap/packages/phantomjs_harbor/bin:${PATH}
 export NODE_PATH=/var/vcap/packages/node_harbor/lib/node_modules/
 
 mkdir -p ${BOSH_INSTALL_TARGET}/nodeclarity
-cp -a ${BOSH_INSTALL_TARGET}/src/${SOURCE_DIR}/src/ui_ng/* ${BOSH_INSTALL_TARGET}/nodeclarity
+cp -a ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/src/ui_ng/* ${BOSH_INSTALL_TARGET}/nodeclarity
 
 pushd ${BOSH_INSTALL_TARGET}/nodeclarity
 export HOME=${BOSH_INSTALL_TARGET}/nodeclarity
