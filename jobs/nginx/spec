@@ -15,6 +15,10 @@ templates:
 provides:
   - name: nginx
     type: nginx
+    properties:
+      - nginx.http_port
+      - nginx.https_port
+      - nginx.ssl_only
 
 consumes:
   - name: registry
@@ -73,11 +77,3 @@ properties:
   nginx.https_port:
     description: "Port that proxy will listen on for HTTPS connections"
     default: 443
-
-  nginx.registry.path:
-    description: "Docker Registry path"
-    default: "/v2/"
-
-  nginx.ui.path:
-    description: "UI path"
-    default: "/"
