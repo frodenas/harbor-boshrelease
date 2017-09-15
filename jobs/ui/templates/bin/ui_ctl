@@ -19,6 +19,9 @@ case $1 in
     pid_guard ${PIDFILE} "ui"
     echo $$ > ${PIDFILE}
 
+    mkdir -p /etc/ui
+    cp /var/vcap/jobs/ui/config/private_key.pem /etc/ui/private_key.pem
+
     export ADMIN_SERVER_URL="http://<%= link('adminserver').instances.first.address %>:<%= link('adminserver').p('adminserver.port') %>"
     export CONFIG_PATH="/var/vcap/jobs/ui/config/app.conf"
     export KEY_PATH="/var/vcap/jobs/ui/config/key"

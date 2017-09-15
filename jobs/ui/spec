@@ -8,6 +8,7 @@ templates:
   bin/ui_ctl: bin/ui_ctl
   config/app.conf: config/app.conf
   config/key: config/key
+  config/private_key.pem: config/private_key.pem
 
 provides:
   - name: ui
@@ -31,3 +32,5 @@ properties:
     default: info
   ui.secret:
     description: "UI secret"
+  ui.private_key:
+    description: "UI private key (PEM format)"
