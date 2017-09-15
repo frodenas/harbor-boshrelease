@@ -12,6 +12,7 @@ provides:
   - name: adminserver
     type: adminserver
     properties:
+      - adminserver.external_url
       - adminserver.port
       - adminserver.key
 

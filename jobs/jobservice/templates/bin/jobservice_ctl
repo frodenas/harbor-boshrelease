@@ -19,7 +19,11 @@ case $1 in
     pid_guard ${PIDFILE} "jobservice"
     echo $$ > ${PIDFILE}
 
+    <% link('adminserver').if_p('adminserver.external_url') do |external_url| %>
+    export ADMIN_SERVER_URL="<%= external_url %>"
+    <% end.else do %>
     export ADMIN_SERVER_URL="http://<%= link('adminserver').instances.first.address %>:<%= link('adminserver').p('adminserver.port') %>"
+    <% end %>
     export CONFIG_PATH="/var/vcap/jobs/jobservice/config/app.conf"
     export KEY_PATH="/var/vcap/jobs/jobservice/config/key"
     export LOG_LEVEL="<%= p('jobservice.log_level') %>"
