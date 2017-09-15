@@ -39,6 +39,11 @@ case $1 in
     <% end %>
     export AUTH_MODE="<%= p('adminserver.auth_mode') %>"
     export MAX_JOB_WORKERS="<%= p('adminserver.max_job_workers') %>"
+    export SELF_REGISTRATION="<%= p('adminserver.self_registration') %>"
+    export TOKEN_EXPIRATION="<%= p('adminserver.token_expiration') %>"
+    export VERIFY_REMOTE_CERT="<%= p('adminserver.verify_remote_cert') %>"
+    export PROJECT_CREATION_RESTRICTION="<%= p('adminserver.project_creation_restriction') %>"
+    export HARBOR_ADMIN_PASSWORD="<%= p('adminserver.initial_admin_password') %>"
     <% if_p('adminserver.docker_registry_url') do |docker_registry_url| %>
     export REGISTRY_URL="<%= docker_registry_url %>"
     <% end.else do %>
@@ -47,20 +52,6 @@ case $1 in
     <% else %>
     export REGISTRY_URL="http://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('nginx.http_port') %>"
     <% end %>
-    <% end %>
-    export HARBOR_ADMIN_PASSWORD="<%= p('adminserver.initial_admin_password') %>"
-
-    <% if_p('adminserver.self_registration') do |self_registration| %>
-    export SELF_REGISTRATION="<%= self_registration %>"
-    <% end %>
-    <% if_p('adminserver.token_expiration') do |token_expiration| %>
-    export TOKEN_EXPIRATION="<%= token_expiration %>"
-    <% end %>
-    <% if_p('adminserver.verify_remote_cert') do |verify_remote_cert| %>
-    export VERIFY_REMOTE_CERT="<%= verify_remote_cert %>"
-    <% end %>
-    <% if_p('adminserver.project_creation_restriction') do |project_creation_restriction| %>
-    export PROJECT_CREATION_RESTRICTION="<%= project_creation_restriction %>"
     <% end %>
     <% if_p('adminserver.admiral_url') do |admiral_url| %>
     export ADMIRAL_URL="<%= admiral_url %>"

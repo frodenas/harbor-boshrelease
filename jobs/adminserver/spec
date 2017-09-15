@@ -43,19 +43,22 @@ properties:
   adminserver.max_job_workers:
     description: "The maximum number of replication workers in job service"
     default: 3
-  adminserver.docker_registry_url:
-    description: "Docker Registry URL"
-  adminserver.initial_admin_password:
-    description: "The administrator's initial password. This password only takes effect for the first time Harbor launches. After that, this setting is ignored and the administrator's password should be set in the UI"
-
   adminserver.self_registration:
     description: "Enable (on) / Disable (off) the ability for a user to register himself/herself"
+    default: off
   adminserver.token_expiration:
-    description: "The expiration time (in minutes) of a token created by token service, default is 30 minutes"
+    description: "The expiration time (in minutes) of a token created by token service"
+    default: 30
   adminserver.verify_remote_cert:
     description: "This flag determines whether (on) or not (off) to verify SSL/TLS certificate when Harbor communicates with a remote registry instance. Setting this attribute to off bypasses the SSL/TLS verification, which is often used when the remote instance has a self-signed or untrusted certificate"
+    default: on
   adminserver.project_creation_restriction:
     description: "The flag to control what users have permission to create projects. By default everyone can create a project, set to 'adminonly' such that only admin can create project"
+    default: "adminonly"
+  adminserver.initial_admin_password:
+    description: "The administrator's initial password. This password only takes effect for the first time Harbor launches. After that, this setting is ignored and the administrator's password should be set in the UI"
+  adminserver.docker_registry_url:
+    description: "Docker Registry URL"
   adminserver.admiral_url:
     description: "Admiral URL"
 
