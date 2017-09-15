@@ -20,6 +20,8 @@ consumes:
     type: ui
   - name: jobservice
     type: jobservice
+  - name: nginx
+    type: nginx
   - name: mysql
     type: mysql
 

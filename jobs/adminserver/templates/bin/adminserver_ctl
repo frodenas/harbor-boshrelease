@@ -28,10 +28,26 @@ case $1 in
     export IMAGE_STORE_PATH="${STORE_DIR}/images"
     mkdir -p "${IMAGE_STORE_PATH}"
 
-    export EXT_ENDPOINT="<%= p('adminserver.external_url', "http://#{spec.ip}:#{p('adminserver.port')}") %>"
+    <% if_p('adminserver.external_url') do |external_url| %>
+    export EXT_ENDPOINT="<%= external_url %>"
+    <% end.else do %>
+    <% if link('nginx').p('nginx.ssl_only') %>
+    export EXT_ENDPOINT="https://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('nginx.https_port') %>"
+    <% else %>
+    export EXT_ENDPOINT="http://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('nginx.http_port') %>"
+    <% end %>
+    <% end %>
     export AUTH_MODE="<%= p('adminserver.auth_mode') %>"
     export MAX_JOB_WORKERS="<%= p('adminserver.max_job_workers') %>"
-    export REGISTRY_URL="<%= p('adminserver.docker_registry_url') %>"
+    <% if_p('adminserver.docker_registry_url') do |docker_registry_url| %>
+    export REGISTRY_URL="<%= docker_registry_url %>"
+    <% end.else do %>
+    <% if link('nginx').p('nginx.ssl_only') %>
+    export REGISTRY_URL="https://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('nginx.https_port') %>"
+    <% else %>
+    export REGISTRY_URL="http://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('nginx.http_port') %>"
+    <% end %>
+    <% end %>
     export HARBOR_ADMIN_PASSWORD="<%= p('adminserver.initial_admin_password') %>"
 
     <% if_p('adminserver.self_registration') do |self_registration| %>
