@@ -64,28 +64,20 @@ properties:
     description: "Timeout for send queries to the upstream server"
     default: 120
 
-  nginx.registry.server_name:
-    description: "Server name that proxy will listen on for Docker Registry HTTP(S) connections"
+  nginx.server_name:
+    description: "Server name that proxy will listen on for HTTP(S) connections"
     default: _
-  nginx.registry.http_port:
-    description: "Port that proxy will listen on for Docker Registry HTTP connections"
+  nginx.http_port:
+    description: "Port that proxy will listen on for HTTP connections"
     default: 80
-  nginx.registry.https_port:
-    description: "Port that proxy will listen on for Docker Registry HTTPS connections"
+  nginx.https_port:
+    description: "Port that proxy will listen on for HTTPS connections"
     default: 443
+
   nginx.registry.path:
     description: "Docker Registry path"
     default: "/v2/"
 
-  nginx.ui.server_name:
-    description: "Server name that proxy will listen on for UI HTTP(S) connections"
-    default: _
-  nginx.ui.http_port:
-    description: "Port that proxy will listen on for UI HTTP connections"
-    default: 80
-  nginx.ui.https_port:
-    description: "Port that proxy will listen on for UI HTTPS connections"
-    default: 443
   nginx.ui.path:
     description: "UI path"
     default: "/"
