@@ -7,7 +7,6 @@ packages:
 templates:
   bin/nginx_ctl: bin/nginx_ctl
   config/nginx.conf: config/nginx.conf
-  config/registry_location.conf: config/registry_location.conf
   config/ssl_cert.pem: config/ssl_cert.pem
   config/ssl_key.pem: config/ssl_key.pem
   config/ui_location.conf: config/ui_location.conf
@@ -35,7 +34,7 @@ properties:
     default: 8192
   nginx.max_upload_size:
     description: "File upload maximum size"
-    default: 0
+    default: 5000m
   nginx.keepalive_timeout:
     description: "Timeout for keep-alive connections"
     default: 7200
