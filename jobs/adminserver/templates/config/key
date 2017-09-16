@@ -1,1 +1,1 @@
-<%= p('adminserver.key') %>
+<%= p('key') %>

@@ -12,9 +12,9 @@ provides:
   - name: adminserver
     type: adminserver
     properties:
-      - adminserver.external_url
-      - adminserver.port
-      - adminserver.key
+      - external_url
+      - port
+      - key
 
 consumes:
   - name: ui
@@ -27,81 +27,81 @@ consumes:
     type: mysql
 
 properties:
-  adminserver.port:
+  port:
     description: "Adminserver listen port"
     default: 80
-  adminserver.log_level:
+  log_level:
     description: "Adminserver Log Level"
     default: info
-  adminserver.key:
+  key:
     description: "Adminserver key"
 
-  adminserver.external_url:
+  external_url:
     description: "Adminserver external url"
-  adminserver.auth_mode:
+  auth_mode:
     description: "The type of authentication that is used (db_auth: the credentials are stored in a database; ldap_auth: for LDAP authentication"
-  adminserver.max_job_workers:
+  max_job_workers:
     description: "The maximum number of replication workers in job service"
     default: 3
-  adminserver.self_registration:
+  self_registration:
     description: "Enable (on) / Disable (off) the ability for a user to register himself/herself"
     default: off
-  adminserver.token_expiration:
+  token_expiration:
     description: "The expiration time (in minutes) of a token created by token service"
     default: 30
-  adminserver.verify_remote_cert:
+  verify_remote_cert:
     description: "This flag determines whether (on) or not (off) to verify SSL/TLS certificate when Harbor communicates with a remote registry instance. Setting this attribute to off bypasses the SSL/TLS verification, which is often used when the remote instance has a self-signed or untrusted certificate"
     default: on
-  adminserver.project_creation_restriction:
+  project_creation_restriction:
     description: "The flag to control what users have permission to create projects. By default everyone can create a project, set to 'adminonly' such that only admin can create project"
     default: "adminonly"
-  adminserver.initial_admin_password:
+  initial_admin_password:
     description: "The administrator's initial password. This password only takes effect for the first time Harbor launches. After that, this setting is ignored and the administrator's password should be set in the UI"
-  adminserver.docker_registry_url:
+  docker_registry_url:
     description: "Docker Registry URL"
-  adminserver.admiral_url:
+  admiral_url:
     description: "Admiral URL"
-  adminserver.reset:
+  reset:
     description: "Reset system configuration"
     default: false
 
-  adminserver.mysql.host:
+  mysql.host:
     description: "MySQL Host"
-  adminserver.mysql.port:
+  mysql.port:
     description: "MySQL Port"
-  adminserver.mysql.username:
+  mysql.username:
     description: "MySQL Username"
-  adminserver.mysql.password:
+  mysql.password:
     description: "MySQL Password"
-  adminserver.mysql.dbname:
+  mysql.dbname:
     description: "MySQL DBName"
 
-  adminserver.ldap.url:
+  ldap.url:
     description: "The LDAP endpoint URL (e.g. ldaps://ldap.mydomain.com)"
-  adminserver.ldap.search_dn:
+  ldap.search_dn:
     description: "The DN of a user who has the permission to search an LDAP/AD server (e.g. uid=admin,ou=people,dc=mydomain,dc=com)"
-  adminserver.ldap.search_pwd:
+  ldap.search_pwd:
     description: "The password of the user specified by search_dn"
-  adminserver.ldap.base_dn:
+  ldap.base_dn:
     description: "The base DN to look up a user, e.g. ou=people,dc=mydomain,dc=com"
-  adminserver.ldap.filter:
+  ldap.filter:
     description: "The search filter for looking up a user, e.g. (objectClass=person)"
-  adminserver.ldap.uid:
+  ldap.uid:
     description: "The attribute used to match a user during a LDAP search, it could be uid, cn, email or other attributes"
-  adminserver.ldap.scope:
+  ldap.scope:
     description: "The scope to search for a user, 1-LDAP_SCOPE_BASE, 2-LDAP_SCOPE_ONELEVEL, 3-LDAP_SCOPE_SUBTREE. Default is 3"
-  adminserver.ldap.timeout:
+  ldap.timeout:
     description: "The LDAP timeout"
 
-  adminserver.email.server:
+  email.server:
     description: "SMTP server"
-  adminserver.email.port:
+  email.port:
     description: "SMTP server port"
-  adminserver.email.username:
+  email.username:
     description: "SMTP server username"
-  adminserver.email.password:
+  email.password:
     description: "SMTP server password"
-  adminserver.email.ssl:
+  email.ssl:
     description: "Tf your SMTP server requires SSL, but does not support STARTTLS, then you should set this property to true"
-  adminserver.email.from:
+  email.from:
     description: "SMTP From address"

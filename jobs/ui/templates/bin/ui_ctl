@@ -25,16 +25,16 @@ case $1 in
     mkdir -p /etc/ui
     cp /var/vcap/jobs/ui/config/private_key.pem /etc/ui/private_key.pem
 
-    <% link('adminserver').if_p('adminserver.external_url') do |external_url| %>
+    <% link('adminserver').if_p('external_url') do |external_url| %>
     export ADMIN_SERVER_URL="<%= external_url %>"
     <% end.else do %>
-    export ADMIN_SERVER_URL="http://<%= link('adminserver').instances.first.address %>:<%= link('adminserver').p('adminserver.port') %>"
+    export ADMIN_SERVER_URL="http://<%= link('adminserver').instances.first.address %>:<%= link('adminserver').p('port') %>"
     <% end %>
     export CONFIG_PATH="/var/vcap/jobs/ui/config/app.conf"
     export KEY_PATH="/var/vcap/jobs/ui/config/key"
     export LOG_LEVEL="<%= p('log_level') %>"
     export UI_SECRET="<%= p('secret') %>"
-    export JOBSERVICE_SECRET="<%= link('jobservice').p('jobservice.secret') %>"
+    export JOBSERVICE_SECRET="<%= link('jobservice').p('secret') %>"
 
     # We cannot configure the `static` templates dir, so we need to be in that directory
     cd /var/vcap/packages/harbor/ui
