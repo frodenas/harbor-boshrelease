@@ -1,5 +1,0 @@
-check process registry
-  with pidfile /var/vcap/sys/run/registry/registry.pid
-  start program "/var/vcap/jobs/registry/bin/registry_ctl start"
-  stop program "/var/vcap/jobs/registry/bin/registry_ctl stop"
-  group vcap
