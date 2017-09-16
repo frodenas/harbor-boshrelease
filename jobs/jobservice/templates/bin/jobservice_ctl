@@ -26,9 +26,9 @@ case $1 in
     <% end %>
     export CONFIG_PATH="/var/vcap/jobs/jobservice/config/app.conf"
     export KEY_PATH="/var/vcap/jobs/jobservice/config/key"
-    export LOG_LEVEL="<%= p('jobservice.log_level') %>"
-    export JOBSERVICE_SECRET="<%= p('jobservice.secret') %>"
-    export UI_SECRET="<%= link('ui').p('ui.secret') %>"
+    export LOG_LEVEL="<%= p('log_level') %>"
+    export JOBSERVICE_SECRET="<%= p('secret') %>"
+    export UI_SECRET="<%= link('ui').p('secret') %>"
 
     exec jobservice \
       >>  ${LOG_DIR}/jobservice.stdout.log \

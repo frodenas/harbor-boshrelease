@@ -13,8 +13,8 @@ provides:
   - name: jobservice
     type: jobservice
     properties:
-      - jobservice.port
-      - jobservice.secret
+      - port
+      - secret
 
 consumes:
   - name: adminserver
@@ -23,11 +23,11 @@ consumes:
     type: ui
 
 properties:
-  jobservice.port:
+  port:
     description: "Jobservice listen port"
     default: 80
-  jobservice.log_level:
+  log_level:
     description: "Jobservice Log Level"
     default: info
-  jobservice.secret:
+  secret:
     description: "Jobservice secret"
