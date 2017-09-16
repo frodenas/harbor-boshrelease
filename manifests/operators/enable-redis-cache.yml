@@ -1,6 +1,0 @@
-# Redis job
-- type: replace
-  path: /instance_groups/name=registry/jobs/-
-  value:
-    name: redis
-    release: harbor

@@ -1,10 +1,11 @@
-# Swift Registry Storage
+# Enable Swift storage backend
 - type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/driver?
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/driver?
   value: swift
 
+# Add Swift properties
 - type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/swift?
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/swift?
   value:
     username: ((registry_storage_swift_username))
     password: ((registry_storage_swift_password))

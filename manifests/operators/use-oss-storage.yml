@@ -1,10 +1,11 @@
-# OSS Registry Storage
+# Enable OSS storage backend
 - type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/driver?
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/driver?
   value: oss
 
+# Add OSS properties
 - type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/oss?
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/oss?
   value:
     access_key_id: ((registry_storage_oss_access_key_id))
     access_key_secret: ((registry_storage_oss_access_key_secret))

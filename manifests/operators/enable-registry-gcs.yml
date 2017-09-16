@@ -1,9 +1,0 @@
-# GCS Registry Storage
-- type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/driver?
-  value: gcs
-
-- type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/storage/gcs?
-  value:
-    bucket: ((registry_storage_gcs_bucket))

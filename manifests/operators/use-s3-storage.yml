@@ -1,0 +1,12 @@
+# Enable S3 storage backend
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/driver?
+  value: s3
+
+# Add S3 properties
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/s3?
+  value:
+    region: ((registry_storage_s3_region))
+    bucket: ((registry_storage_s3_bucket))
+    container: ((registry_storage_s3_container))

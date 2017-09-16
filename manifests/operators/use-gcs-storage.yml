@@ -1,0 +1,10 @@
+# Enable GCS storage backend
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/driver?
+  value: gcs
+
+# Add GCS properties
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/storage/gcs?
+  value:
+    bucket: ((registry_storage_gcs_bucket))

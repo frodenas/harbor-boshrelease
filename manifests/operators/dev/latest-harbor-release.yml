@@ -1,0 +1,5 @@
+- type: replace
+  path: /releases/name=harbor
+  value:
+    name: harbor
+    version: latest
