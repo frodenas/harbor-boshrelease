@@ -61,11 +61,7 @@ case $1 in
     export RESET="<%= p('reset') %>"
 
     export DATABASE_TYPE=mysql
-    <% if_p('mysql.host') do |mysql_host| %>
-    export MYSQL_HOST="<%= mysql_host %>"
-    <% end.else do %>
     export MYSQL_HOST="<%= link('mysql').instances.first.address %>"
-    <% end %>
     export MYSQL_PORT="<%= p('mysql.port') %>"
     export MYSQL_USR="<%= p('mysql.username') %>"
     export MYSQL_PWD="<%= p('mysql.password') %>"

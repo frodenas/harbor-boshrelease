@@ -65,8 +65,6 @@ properties:
     description: "Reset system configuration"
     default: false
 
-  mysql.host:
-    description: "MySQL Host"
   mysql.port:
     description: "MySQL Port"
   mysql.username:
