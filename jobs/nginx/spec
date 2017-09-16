@@ -15,64 +15,61 @@ provides:
   - name: nginx
     type: nginx
     properties:
-      - nginx.http_port
-      - nginx.https_port
-      - nginx.ssl_only
+      - http_port
+      - https_port
+      - ssl_only
 
 consumes:
-  - name: registry
-    type: registry
   - name: ui
     type: ui
 
 properties:
-  nginx.worker_processes:
-    description: "Number of Nginx workers"
+  worker_processes:
+    description: "Number of nginx workers"
     default: 2
-  nginx.worker_connections:
-    description: "Number of Nginx connections per worker"
+  worker_connections:
+    description: "Number of nginx connections per worker"
     default: 8192
-  nginx.max_upload_size:
+  max_upload_size:
     description: "File upload maximum size"
     default: 5000m
-  nginx.keepalive_timeout:
+  keepalive_timeout:
     description: "Timeout for keep-alive connections"
     default: 7200
-  nginx.ssl_only:
+  http_port:
+    description: "Port that nginx will listen on for HTTP connections"
+    default: 80
+  https_port:
+    description: "Port that nginx will listen on for HTTPS connections"
+    default: 443
+  server_name:
+    description: "Server name that nginx will listen on for HTTP(S) connections"
+    default: _
+  ssl_only:
     description: "Enable only HTTPS requests"
     default: false
-  nginx.ssl_cert:
+  ssl_cert:
     description: "SSL Certificate (PEM encoded)"
-  nginx.ssl_key:
+  ssl_key:
     description: "SSL private key (PEM encoded)"
-  nginx.ssl_protocols:
-    description: "Enable protocols"
+  ssl_protocols:
+    description: "Enabled protocols"
     default: "TLSv1 TLSv1.1 TLSv1.2"
-  nginx.ssl_ciphers:
-    description: "Enable ciphers"
+  ssl_ciphers:
+    description: "Enabled ciphers"
     default: "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH"
-  nginx.ssl_session_cache:
+  ssl_session_cache:
     description: "Types and sizes of caches that store session parameters"
     default: "shared:SSL:10m"
-  nginx.ssl_session_timeout:
+  ssl_session_timeout:
     description: "Timeout for reusing the previously negotiated cryptographic parameters"
     default: 7200
-  nginx.proxy_connect_timeout:
+  proxy_connect_timeout:
     description: "Timeout for the connection to the upstream server"
     default: 300
-  nginx.proxy_read_timeout:
+  proxy_read_timeout:
     description: "Timeout for read queries to the upstream server"
     default: 120
-  nginx.proxy_send_timeout:
+  proxy_send_timeout:
     description: "Timeout for send queries to the upstream server"
     default: 120
-
-  nginx.server_name:
-    description: "Server name that proxy will listen on for HTTP(S) connections"
-    default: _
-  nginx.http_port:
-    description: "Port that proxy will listen on for HTTP connections"
-    default: 80
-  nginx.https_port:
-    description: "Port that proxy will listen on for HTTPS connections"
-    default: 443
