@@ -32,8 +32,8 @@ case $1 in
     <% end %>
     export CONFIG_PATH="/var/vcap/jobs/ui/config/app.conf"
     export KEY_PATH="/var/vcap/jobs/ui/config/key"
-    export LOG_LEVEL="<%= p('ui.log_level') %>"
-    export UI_SECRET="<%= p('ui.secret') %>"
+    export LOG_LEVEL="<%= p('log_level') %>"
+    export UI_SECRET="<%= p('secret') %>"
     export JOBSERVICE_SECRET="<%= link('jobservice').p('jobservice.secret') %>"
 
     # We cannot configure the `static` templates dir, so we need to be in that directory

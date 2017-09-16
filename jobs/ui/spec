@@ -14,8 +14,8 @@ provides:
   - name: ui
     type: ui
     properties:
-      - ui.port
-      - ui.secret
+      - port
+      - secret
 
 consumes:
   - name: adminserver
@@ -24,13 +24,13 @@ consumes:
     type: jobservice
 
 properties:
-  ui.port:
+  port:
     description: "UI listen port"
     default: 80
-  ui.log_level:
+  log_level:
     description: "UI Log Level"
     default: info
-  ui.secret:
+  secret:
     description: "UI secret"
-  ui.private_key:
+  private_key:
     description: "UI private key (PEM format)"
