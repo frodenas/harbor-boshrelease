@@ -18,6 +18,8 @@ provides:
       - http_port
       - https_port
       - ssl_only
+  - name: auth_token
+    type: auth_token
   - name: notification
     type: notification
 
