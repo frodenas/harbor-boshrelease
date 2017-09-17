@@ -44,16 +44,8 @@ case $1 in
     export VERIFY_REMOTE_CERT="<%= p('verify_remote_cert') %>"
     export PROJECT_CREATION_RESTRICTION="<%= p('project_creation_restriction') %>"
     export HARBOR_ADMIN_PASSWORD="<%= p('initial_admin_password') %>"
-    <% if_p('docker_registry_url') do |docker_registry_url| %>
-    export REGISTRY_URL="<%= docker_registry_url %>"
-    <% end.else do %>
-    <% if link('nginx').p('ssl_only') %>
-    export REGISTRY_URL="https://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('https_port') %>"
-    <% else %>
-    export REGISTRY_URL="http://<%= link('nginx').instances.first.address %>:<%= link('nginx').p('http_port') %>"
-    <% end %>
-    <% end %>
-    <% if_p('admiral_url') do |admiral_url| %>
+    export REGISTRY_URL="<%= p('docker_registry.schema') %>://<%= link('registry').instances.first.address %>:<%= p('docker_registry.port') %>"
+    <% if_p('admiral.url') do |admiral_url| %>
     export ADMIRAL_URL="<%= admiral_url %>"
     <% end %>
     export WITH_NOTARY="false"

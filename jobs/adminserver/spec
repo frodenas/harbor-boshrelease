@@ -25,6 +25,8 @@ consumes:
     type: nginx
   - name: mysql
     type: mysql
+  - name: registry
+    type: registry
 
 properties:
   port:
@@ -57,13 +59,19 @@ properties:
     default: "adminonly"
   initial_admin_password:
     description: "The administrator's initial password. This password only takes effect for the first time Harbor launches. After that, this setting is ignored and the administrator's password should be set in the UI"
-  docker_registry_url:
-    description: "Docker Registry URL"
-  admiral_url:
-    description: "Admiral URL"
   reset:
     description: "Reset system configuration"
     default: false
+
+  docker_registry.schema:
+    description: "Docker Registry schema"
+    default: https
+  docker_registry.port:
+    description: "Docker Registry port"
+    default: 5000
+
+  admiral.url:
+    description: "Admiral URL"
 
   mysql.port:
     description: "MySQL Port"
