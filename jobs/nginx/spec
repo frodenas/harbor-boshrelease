@@ -18,6 +18,8 @@ provides:
       - http_port
       - https_port
       - ssl_only
+  - name: notification
+    type: notification
 
 consumes:
   - name: ui
