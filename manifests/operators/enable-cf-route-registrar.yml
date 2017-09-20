@@ -1,22 +1,9 @@
-# Registry URL
-- type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/http/host?
-  value: https://registry.((system_domain))
-
-- type: replace
-  path: /instance_groups/name=harbor/jobs/name=adminserver/properties/adminserver/docker_registry_url?
-  value: https://registry.((system_domain))
-
-# Harbor URL
-- type: replace
-  path: /instance_groups/name=registry/jobs/name=registry/properties/registry/auth/token/realm?
-  value: https://harbor.((system_domain))/service/token
-
+# Add external URL property to adminserver
 - type: replace
   path: /instance_groups/name=harbor/jobs/name=adminserver/properties/adminserver/external_url?
   value: https://harbor.((system_domain))
 
-# Route Registrar
+# Add route registrar to nginx job
 - type: replace
   path: /instance_groups/name=nginx/jobs/-
   value:
@@ -29,18 +16,13 @@
     properties:
       route_registrar:
         routes:
-          - name: registry
-            registration_interval: 20s
-            port: 80
-            uris:
-              - registry.((system_domain))
           - name: harbor
             registration_interval: 20s
             port: 80
             uris:
               - harbor.((system_domain))
 
-# Releases
+# Add routing release
 - type: replace
   path: /releases/-
   value:
