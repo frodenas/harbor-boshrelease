@@ -1,0 +1,33 @@
+# Add redis properties to registry job
+- type: replace
+  path: /instance_groups/name=registry/jobs/name=registry/properties/redis?
+  value:
+    password: ((redis_password))
+
+# Add redis job
+- type: replace
+  path: /instance_groups/name=registry/jobs/-
+  value:
+    name: redis
+    release: redis
+    properties:
+      listen_address: 0.0.0.0
+      password: ((redis_password))
+      append_only:
+        enabled: "yes"
+
+# Add variables
+- type: replace
+  path: /variables/-
+  value:
+    name: redis_password
+    type: password
+
+# Add redis release
+- type: replace
+  path: /releases/-
+  value:
+    name: redis
+    version: 1
+    url: https://github.com/frodenas/redis-boshrelease/releases/download/v1/redis-1.tgz
+    sha1: 3944d07b9daf5c15d2e60722f39d0ec743c45fb1
