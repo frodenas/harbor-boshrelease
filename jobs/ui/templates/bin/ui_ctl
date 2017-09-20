@@ -25,11 +25,7 @@ case $1 in
     mkdir -p /etc/ui
     cp /var/vcap/jobs/ui/config/private_key.pem /etc/ui/private_key.pem
 
-    <% link('adminserver').if_p('external_url') do |external_url| %>
-    export ADMIN_SERVER_URL="<%= external_url %>"
-    <% end.else do %>
     export ADMIN_SERVER_URL="http://<%= link('adminserver').instances.first.address %>:<%= link('adminserver').p('port') %>"
-    <% end %>
     export CONFIG_PATH="/var/vcap/jobs/ui/config/app.conf"
     export KEY_PATH="/var/vcap/jobs/ui/config/key"
     export LOG_LEVEL="<%= p('log_level') %>"
