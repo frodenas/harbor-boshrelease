@@ -2,6 +2,12 @@
 
 This is a [BOSH](http://bosh.io/) release for [VMware Harbor](https://vmware.github.io/harbor/), an enterprise-class registry server that stores and distributes Docker images.
 
+## Disclaimer
+
+This is **NOT** a production ready [BOSH](http://bosh.io/) release. I created it for my own experimentation and it may not be supported in the future.
+
+If you are looking for a supported [Docker Registry](https://docs.docker.com/registry/) [BOSH](http://bosh.io/) release, please check the [bosh.io](http://bosh.io/releases) releases page or the [cloudfoundry-community](https://github.com/cloudfoundry-community) github organization.
+
 ## Table of Contents
 
 * [Usage](https://github.com/frodenas/harbor-boshrelease#usage)
@@ -39,8 +45,11 @@ To deploy a basic `harbor` server use the following command:
 
 ```
 bosh -d harbor deploy manifests/harbor.yml \
-  --vars-store tmp/deployment-vars.yml
+  --vars-store tmp/deployment-vars.yml \
+  -v harbor_secret_key=123456789012345678901234
 ```
+
+*NOTE: The `harbor_secret_key` variable MUST be a 16, 24, or 32 bytes AES key*
 
 ### Operations files
 
@@ -50,13 +59,13 @@ Please review the op files before deploying them to check the requeriments, depe
 
 | File | Description |
 | ---- | ----------- |
-| [enable-cf-route-registrar.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-cf-route-registrar.yml) | Registers `registry`, and `harbor` as [Cloud Foundry routes](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html) (under your `system domain`) |
-| [enable-redis-cache.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-redis-cache.yml) | Uses [Redis](https://redis.io/) to cache information about [Docker Registry](https://docs.docker.com/registry/) immutable blobs |
-| [enable-registry-azure.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-azure.yml) | Uses [Microsoft Azure Storage](https://azure.microsoft.com/en-us/services/storage/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
-| [enable-registry-gcs.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-gcs.yml) | Uses [Google Cloud Storage](https://cloud.google.com/storage/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
-| [enable-registry-oss.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-oss.yml) | Uses [Aliyun Object Storage Service](https://www.alibabacloud.com/product/oss) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
-| [enable-registry-s3.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-s3.yml) | Uses [Amazon S3](https://cloud.google.com/storage/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
-| [enable-registry-swift.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-swift.yml) | Uses [OpenStack Swift](https://docs.openstack.org/swift/latest/) as the [Docker Registry](https://docs.docker.com/registry/) storage backend |
+| [enable-cf-route-registrar.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-cf-route-registrar.yml) | Registers `harbor` as a [Cloud Foundry route](https://docs.cloudfoundry.org/devguide/deploy-apps/routes-domains.html) (under your `system domain`) |
+| [enable-redis-cache.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-redis-cache.yml) | Enables [nginx](https://nginx.org/) as a proxy in front of your [Docker Registry](https://docs.docker.com/registry/) instances |
+| [enable-registry-azure.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-azure.yml) | Uses [Microsoft Azure Storage](https://azure.microsoft.com/en-us/services/storage/) as the [Docker Registry storage backend](https://docs.docker.com/registry/configuration/#storage) |
+| [enable-registry-gcs.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-gcs.yml) | Uses [Google Cloud Storage](https://cloud.google.com/storage/) as the [Docker Registry storage backend](https://docs.docker.com/registry/configuration/#storage) |
+| [enable-registry-oss.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-oss.yml) | Uses [Aliyun Object Storage Service](https://www.alibabacloud.com/product/oss) as the [Docker Registry storage backend](https://docs.docker.com/registry/configuration/#storage) |
+| [enable-registry-s3.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-s3.yml) | Uses [Amazon S3](https://cloud.google.com/storage/) as the [Docker Registry storage backend](https://docs.docker.com/registry/configuration/#storage) |
+| [enable-registry-swift.yml](https://github.com/frodenas/harbor-boshrelease/blob/master/manifests/operators/enable-registry-swift.yml) | Uses [OpenStack Swift](https://docs.openstack.org/swift/latest/) as the [Docker Registry storage backend](https://docs.docker.com/registry/configuration/#storage) |
 
 ### Deployment variables and the var-store
 
