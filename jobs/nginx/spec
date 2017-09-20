@@ -7,6 +7,7 @@ packages:
 templates:
   bin/nginx_ctl: bin/nginx_ctl
   config/nginx.conf: config/nginx.conf
+  config/registry_location.conf: config/registry_location.conf
   config/ssl_cert.pem: config/ssl_cert.pem
   config/ssl_key.pem: config/ssl_key.pem
   config/ui_location.conf: config/ui_location.conf
@@ -19,11 +20,15 @@ provides:
       - https_port
       - ssl_only
   - name: auth_token
-    type: auth_token
+    type: http_endpoint
   - name: notification
-    type: notification
+    type: http_endpoint
+  - name: health_tcp
+    type: tcp_endpoint
 
 consumes:
+  - name: registry
+    type: docker_registry
   - name: ui
     type: ui
 
@@ -36,7 +41,7 @@ properties:
     default: 8192
   max_upload_size:
     description: "File upload maximum size"
-    default: 5000m
+    default: 0
   keepalive_timeout:
     description: "Timeout for keep-alive connections"
     default: 7200
