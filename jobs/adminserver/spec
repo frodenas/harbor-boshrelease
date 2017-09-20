@@ -12,21 +12,18 @@ provides:
   - name: adminserver
     type: adminserver
     properties:
-      - external_url
       - port
       - key
 
 consumes:
-  - name: ui
-    type: ui
   - name: jobservice
     type: jobservice
+  - name: ui
+    type: ui
   - name: nginx
     type: nginx
   - name: mysql
     type: mysql
-  - name: registry
-    type: registry
 
 properties:
   port:
@@ -62,13 +59,6 @@ properties:
   reset:
     description: "Reset system configuration"
     default: false
-
-  docker_registry.schema:
-    description: "Docker Registry schema"
-    default: https
-  docker_registry.port:
-    description: "Docker Registry port"
-    default: 5000
 
   admiral.url:
     description: "Admiral URL"
