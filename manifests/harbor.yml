@@ -1,0 +1,198 @@
+---
+name: harbor
+
+instance_groups:
+  - name: mysql
+    azs:
+      - z1
+    instances: 1
+    vm_type: common
+    stemcell: default
+    persistent_disk_type: 10GB
+    networks:
+      - name: default
+    update:
+      serial: true
+    jobs:
+      - name: mysql
+        release: cf-mysql
+    properties:
+      cf_mysql:
+        mysql:
+          admin_password: ((cf_mysql_admin_password))
+          cluster_health:
+            password: ((cf_mysql_cluster_health_password))
+          galera_healthcheck:
+            db_password: ((cf_mysql_galera_healthcheck_db_password))
+            endpoint_password: ((cf_mysql_galera_healthcheck_endpoint_password))
+          seeded_databases:
+            - name: harbor
+              username: harbor
+              password: ((mysql_harbor_password))
+
+  - name: registry
+    azs:
+      - z1
+    instances: 1
+    vm_type: common
+    stemcell: default
+    persistent_disk_type: 100GB
+    networks:
+      - name: default
+    jobs:
+      - name: registry
+        release: docker-registry
+        consumes:
+          auth_token:
+            from: auth_token
+          notification:
+            from: notification
+          health_http: nil
+          health_tcp:
+            from: health_tcp
+        properties:
+          storage:
+            driver: filesystem
+            delete:
+              enabled: true
+          auth:
+            htpasswd:
+              realm: "Docker Registry Realm"
+              users:
+                admin: ((docker_registry_password))
+          http:
+            listen_addr: 0.0.0.0
+            secret: ((docker_registry_secret))
+            headers:
+              X-Content-Type-Options: [nosniff]
+          health:
+            storagedriver:
+              enabled: true
+              interval: 10s
+              threshold: 3
+          auth:
+            token:
+              schema: http
+              port: 80
+              path: /service/token
+              service: harbor-registry
+              issuer: harbor-token-issuer
+              rootcertbundle: ((harbor_certificate.certificate))
+          notifications:
+            endpoint:
+              name: harbor
+              schema: http
+              port: 80
+              path: /service/notifications
+          health:
+            tcp:
+              port: 80
+
+  - name: harbor
+    azs:
+      - z1
+    instances: 1
+    vm_type: common
+    stemcell: default
+    persistent_disk_type: 10GB
+    networks:
+      - name: default
+    jobs:
+      - name: adminserver
+        release: harbor
+        properties:
+          port: 8080
+          key: ((harbor_secret_keyy))
+          auth_mode: "db_auth"
+          token_expiration: 1440
+          verify_remote_cert: false
+          initial_admin_password: ((harbor_initial_admin_password))
+          reset: true
+          mysql:
+            username: harbor
+            password: ((mysql_harbor_password))
+            port: 3306
+            dbname: harbor
+      - name: jobservice
+        release: harbor
+        properties:
+          port: 8081
+          secret: ((harbor_jobservice_secret))
+      - name: ui
+        release: harbor
+        properties:
+          port: 8082
+          secret: ((harbor_ui_secret))
+          private_key: ((harbor_certificate.private_key))
+
+  - name: nginx
+    azs:
+      - z1
+    instances: 1
+    vm_type: common
+    stemcell: default
+    networks:
+      - name: default
+    jobs:
+      - name: nginx
+        release: harbor
+        properties:
+          ssl_cert: ((harbor_certificate.certificate))
+          ssl_key: ((harbor_certificate.private_key))
+
+variables:
+  - name: cf_mysql_admin_password
+    type: password
+  - name: cf_mysql_cluster_health_password
+    type: password
+  - name: cf_mysql_galera_healthcheck_db_password
+    type: password
+  - name: cf_mysql_galera_healthcheck_endpoint_password
+    type: password
+  - name: mysql_harbor_password
+    type: password
+  - name: docker_registry_secret
+    type: password
+  - name: harbor_initial_admin_password
+    type: password
+  - name: harbor_jobservice_secret
+    type: password
+  - name: harbor_ui_secret
+    type: password
+  - name: harbor_ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: harbor_ca
+  - name: harbor_certificate
+    type: certificate
+    options:
+      ca: harbor_ca
+      common_name: harbor_certificate
+      extended_key_usage:
+        - client_auth
+        - server_auth
+
+update:
+  canaries: 1
+  max_in_flight: 32
+  canary_watch_time: 1000-100000
+  update_watch_time: 1000-100000
+  serial: false
+
+stemcells:
+  - alias: default
+    os: ubuntu-trusty
+    version: latest
+
+releases:
+  - name: cf-mysql
+    version: 36
+    url: https://bosh.io/d/github.com/cloudfoundry/cf-mysql-release?v=36
+    sha1: 746240c005465ffa105ee89e53e401e311b4fbf8
+  - name: docker-registry
+    version: 1
+    url: https://github.com/frodenas/docker-registry-boshrelease/releases/download/v1/docker-registry-1.tgz
+    sha1: 058fb0740cde6fad0dac8257e37ea32fd288465d
+  - name: harbor
+    version: latest
