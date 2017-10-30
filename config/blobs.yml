@@ -18,3 +18,7 @@ phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2:
   size: 23415665
   object_id: 429b7428-c965-4c95-789b-ed7edc8153f9
   sha: f8afc8a24eec34c2badccc93812879a3d6f2caf3
+yarn/yarn-v1.2.1.tar.gz:
+  size: 885691
+  object_id: 76205dc1-1199-49c9-4b78-3ed9ed32b53d
+  sha: 0d628dc01438881a1663a6f83cbf7ac5db7a75fc
