@@ -36,7 +36,9 @@ mkdir -p ${BOSH_INSTALL_TARGET}/ui/views/
 cp -a ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/src/ui/views/* ${BOSH_INSTALL_TARGET}/ui/views/
 
 # Build ui_ng
-export PATH=/var/vcap/packages/node_harbor/bin:/var/vcap/packages/phantomjs_harbor/bin:${PATH}
+export PATH=/var/vcap/packages/node_harbor/bin:${PATH}
+export PATH=/var/vcap/packages/phantomjs_harbor/bin:${PATH}
+export PATH=/var/vcap/packages/yarn_harbor/bin:${PATH}
 export NODE_PATH=/var/vcap/packages/node_harbor/lib/node_modules/
 
 mkdir -p ${BOSH_INSTALL_TARGET}/nodeclarity
