@@ -102,7 +102,7 @@ instance_groups:
         release: harbor
         properties:
           port: 8080
-          key: ((harbor_secret_keyy))
+          key: ((harbor_secret_key))
           auth_mode: "db_auth"
           token_expiration: 1440
           verify_remote_cert: false
