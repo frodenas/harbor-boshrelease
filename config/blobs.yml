@@ -30,6 +30,10 @@ nginx/pcre-8.41.tar.gz:
   size: 2068775
   object_id: f0bb0de4-a801-470f-5253-213103e42558
   sha: dddf0995aefe04cc6267c1448ffef0e7b0560ec0
+node-sass/linux-x64-57_binding.node:
+  size: 3098129
+  object_id: 7f7b047d-2b38-4265-7dae-8358f6ccf08a
+  sha: a6deb20a3e688a04b0daa02f3e1eeb26cb5f6e48
 node/node-v8.8.1-linux-x64.tar.xz:
   size: 11308220
   object_id: ecf42fa9-63db-47bb-7423-e9308b891937

@@ -10,3 +10,4 @@ dependencies:
 files:
   - common/utils.sh
   - github.com/vmware/harbor/**/*
+  - node-sass/linux-x64-57_binding.node
