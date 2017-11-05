@@ -1,7 +1,15 @@
+boost/boost_1_59_0.tar.gz:
+  size: 83709983
+  object_id: de0b6b1d-907f-4d4b-4cc5-1e45b97a91b7
+  sha: 5123209db194d66d69a9cfa5af8ff473d5941d97
 golang/go1.9.2.linux-amd64.tar.gz:
   size: 104247844
   object_id: 73515baa-a516-4da6-61d2-e60eed141973
   sha: 94c889e039e3d2e94ed95e8f8cb747c5bc1c2b58
+mysql/mysql-5.7.20.tar.gz:
+  size: 51725558
+  object_id: 07f7b6e4-261c-4a5d-5777-2e56763c13aa
+  sha: 567061d786d89fe65cb6fb70d0e70e36278e9ef2
 nginx/nginx-1.10.3.tar.gz:
   size: 911509
   object_id: 7ca54840-e083-4c59-679e-1fde5a3484b9

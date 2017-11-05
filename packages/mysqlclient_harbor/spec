@@ -1,0 +1,6 @@
+---
+name: mysqlclient_harbor
+
+files:
+  - boost/boost_1_59_0.tar.gz
+  - mysql/mysql-5.7.20.tar.gz

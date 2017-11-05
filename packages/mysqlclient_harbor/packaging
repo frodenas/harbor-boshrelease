@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -eux
+
+# Extract boost
+tar xzvf ${BOSH_COMPILE_TARGET}/boost/boost_1_59_0.tar.gz
+
+# Build mysql package
+tar xzvf ${BOSH_COMPILE_TARGET}/mysql/mysql-5.7.20.tar.gz
+pushd mysql-5.7.20
+  cmake . \
+    -DENABLE_DOWNLOADS=OFF \
+    -DWITHOUT_SERVER=ON \
+    -DWITH_EMBEDDED_SERVER=OFF \
+    -DWITH_BOOST=${BOSH_COMPILE_TARGET}/boost_1_59_0 \
+    -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET}
+  make
+  make install
+popd
