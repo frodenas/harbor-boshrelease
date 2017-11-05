@@ -1,7 +1,0 @@
-#!/bin/bash
-
-set -eux
-
-# Extract yarn package
-tar xzvf ${BOSH_COMPILE_TARGET}/yarn/yarn-v1.2.1.tar.gz
-cp -a ${BOSH_COMPILE_TARGET}/yarn-v1.2.1/* ${BOSH_INSTALL_TARGET}

@@ -1,5 +1,0 @@
----
-name: yarn_harbor
-
-files:
-  - yarn/yarn-v1.2.1.tar.gz

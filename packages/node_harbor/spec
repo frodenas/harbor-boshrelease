@@ -3,3 +3,4 @@ name: node_harbor
 
 files:
   - node/node-v8.8.1-linux-x64.tar.xz
+  - yarn/yarn-v1.2.1.tar.gz

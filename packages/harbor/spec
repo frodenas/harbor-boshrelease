@@ -5,7 +5,6 @@ dependencies:
   - golang_harbor
   - node_harbor
   - phantomjs_harbor
-  - yarn_harbor
 
 files:
   - common/utils.sh
