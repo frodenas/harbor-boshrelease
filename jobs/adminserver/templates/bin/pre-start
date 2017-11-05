@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -eu
+
+export MYSQL_PWD="<%= p('mysql.password') %>"
+
+# Check if harbor tables already exists
+if $(/var/vcap/packages/mysqlclient_harbor/bin/mysql \
+        --host="<%= link('mysql').instances.first.address %>" \
+        --port=<%= p('mysql.port') %> \
+        --user="<%= p('mysql.username') %>" \
+        --database="<%= p('mysql.dbname') %>" \
+        -e "SELECT 1 FROM alembic_version LIMIT 1;" > /dev/null 2>&1); then
+  echo "[$(date)] harbor tables already exists"
+  # TODO: upgrade?
+else
+  # Create harbor tables
+  echo "[$(date)] Creating harbor tables..."
+  /var/vcap/packages/mysqlclient_harbor/bin/mysql \
+    --host="<%= link('mysql').instances.first.address %>" \
+    --port=<%= p('mysql.port') %> \
+    --user="<%= p('mysql.username') %>" \
+    --database="<%= p('mysql.dbname') %>" < /var/vcap/packages/harbor/db/registry.sql
+fi
+
+exit 0

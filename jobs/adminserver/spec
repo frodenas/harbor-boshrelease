@@ -3,9 +3,11 @@ name: adminserver
 
 packages:
   - harbor
+  - mysqlclient_harbor
 
 templates:
   bin/adminserver_ctl: bin/adminserver_ctl
+  bin/pre-start: bin/pre-start
   config/key: config/key
 
 provides:
