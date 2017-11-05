@@ -46,7 +46,7 @@ To deploy a basic `harbor` server use the following command:
 ```
 bosh -d harbor deploy manifests/harbor.yml \
   --vars-store tmp/deployment-vars.yml \
-  -v harbor_secret_key=123456789012345678901234
+  -v harbor_secret_key=0a0b0c0d0e0f1a1b1c1d1e1f
 ```
 
 *NOTE: The `harbor_secret_key` variable MUST be a 16, 24, or 32 bytes AES key*
