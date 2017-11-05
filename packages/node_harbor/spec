@@ -2,4 +2,4 @@
 name: node_harbor
 
 files:
-  - node/node-v7.5.0-linux-x64.tar.gz
+  - node/node-v8.8.1-linux-x64.tar.xz

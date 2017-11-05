@@ -3,5 +3,5 @@
 set -eux
 
 # Extract node package
-tar xzvf ${BOSH_COMPILE_TARGET}/node/node-v7.5.0-linux-x64.tar.gz
-cp -a ${BOSH_COMPILE_TARGET}/node-v7.5.0-linux-x64/* ${BOSH_INSTALL_TARGET}
+tar xvf ${BOSH_COMPILE_TARGET}/node/node-v8.8.1-linux-x64.tar.xz
+cp -a ${BOSH_COMPILE_TARGET}/node-v8.8.1-linux-x64/* ${BOSH_INSTALL_TARGET}
