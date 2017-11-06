@@ -85,5 +85,10 @@ sed -i '/drop database/d' ${BOSH_INSTALL_TARGET}/db/registry.sql
 sed -i '/create database/d' ${BOSH_INSTALL_TARGET}/db/registry.sql
 sed -i '/use registry/d' ${BOSH_INSTALL_TARGET}/db/registry.sql
 
+# Copy database migration
+mkdir -p ${BOSH_INSTALL_TARGET}/db/harbor-migration
+cp -a ${BOSH_INSTALL_TARGET}/src/${PACKAGE_NAME}/tools/migration/* ${BOSH_INSTALL_TARGET}/db/harbor-migration
+sed -i 's/^sqlalchemy.url.*/sqlalchemy.url = mysql:\/\/${MYSQL_USR}:${MYSQL_PWD}@${MYSQL_HOST}:${MYSQL_PORT}\/${MYSQL_DATABASE}/g' ${BOSH_INSTALL_TARGET}/db/harbor-migration/alembic.tpl
+
 # Clean artifats
 rm -rf ${BOSH_INSTALL_TARGET}/pkg ${BOSH_INSTALL_TARGET}/src ${BOSH_INSTALL_TARGET}/nodeclarity

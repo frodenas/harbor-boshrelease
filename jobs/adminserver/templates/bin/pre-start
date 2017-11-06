@@ -2,25 +2,30 @@
 
 set -eu
 
-export MYSQL_PWD="<%= p('mysql.password') %>"
+export PATH=/var/vcap/packages/python_harbor/bin:${PATH}
+export PATH=/var/vcap/packages/mysqlclient_harbor/bin:${PATH}
+export LD_LIBRARY_PATH=/var/vcap/packages/mysqlclient_harbor/lib
+export PYTHONPATH=/var/vcap/packages/harbor/db/harbor-migration
 
 # Check if harbor tables already exists
-if $(/var/vcap/packages/mysqlclient_harbor/bin/mysql \
-        --host="<%= link('mysql').instances.first.address %>" \
-        --port=<%= p('mysql.port') %> \
-        --user="<%= p('mysql.username') %>" \
-        --database="<%= p('mysql.dbname') %>" \
-        -e "SELECT 1 FROM alembic_version LIMIT 1;" > /dev/null 2>&1); then
-  echo "[$(date)] harbor tables already exists"
-  # TODO: upgrade?
+export MYSQL_HOST="<%= link('mysql').instances.first.address %>"
+export MYSQL_PORT="<%= p('mysql.port') %>"
+export MYSQL_USR="<%= p('mysql.username') %>"
+export MYSQL_PWD="<%= p('mysql.password') %>"
+export MYSQL_DATABASE="<%= p('mysql.dbname') %>"
+if $(mysql --host="${MYSQL_HOST}" --port=${MYSQL_PORT} --user="${MYSQL_USR}" --database="${MYSQL_DATABASE}" \
+           -e "SELECT 1 FROM alembic_version LIMIT 1;" > /dev/null 2>&1); then
+  echo "[$(date)] harbor tables already exists, checking for upgrades..."
+  pushd /var/vcap/packages/harbor/db/harbor-migration
+  source ./alembic.tpl > ./alembic.ini
+  alembic -c ./alembic.ini current
+  alembic -c ./alembic.ini upgrade head
+  alembic -c ./alembic.ini current
+  popd
 else
   # Create harbor tables
   echo "[$(date)] Creating harbor tables..."
-  /var/vcap/packages/mysqlclient_harbor/bin/mysql \
-    --host="<%= link('mysql').instances.first.address %>" \
-    --port=<%= p('mysql.port') %> \
-    --user="<%= p('mysql.username') %>" \
-    --database="<%= p('mysql.dbname') %>" < /var/vcap/packages/harbor/db/registry.sql
+  mysql --host="${MYSQL_HOST}" --port=${MYSQL_PORT} --user="${MYSQL_USR}" --database="${MYSQL_DATABASE}" < /var/vcap/packages/harbor/db/registry.sql
 fi
 
 exit 0
