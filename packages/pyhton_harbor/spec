@@ -1,0 +1,12 @@
+---
+name: python_harbor
+
+dependencies:
+  - mysqlclient_harbor
+
+files:
+  - python/Python-2.7.12.tgz
+  - python/setuptools-36.6.0.zip
+  - python/pip-9.0.1.tar.gz
+  - python/alembic-0.9.6.tar.gz
+  - python/mysqlclient-1.3.12.tar.gz

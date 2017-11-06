@@ -3,6 +3,7 @@ name: adminserver
 
 packages:
   - harbor
+  - python_harbor
   - mysqlclient_harbor
 
 templates:
